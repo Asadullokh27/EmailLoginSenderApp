@@ -1,8 +1,11 @@
-﻿namespace EmailSenderApp.Domain.Entities.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EmailSenderApp.Domain.Entities.DTOs
 {
-    public class EmailModel
+    public class EmailDTO
     {
-        public int Id { get; set; }
+
+        [EmailAddress]
         public string Email { get; set; }
         public string Password { get; set; }
         public string Code { get; set; }

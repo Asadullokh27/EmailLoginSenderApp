@@ -1,6 +1,4 @@
-﻿using EmailSenderApp.Application.Services.EmailServices;
-using EmailSenderApp.Domain.Entities.Models;
-using Microsoft.AspNetCore.Http;
+﻿using EmailSenderApp.Application.Services.LoginServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmailSenderApp.API.Controllers
@@ -9,26 +7,17 @@ namespace EmailSenderApp.API.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IEmailService _emailService;
 
-        public LoginController(IEmailService emailService)
+        private readonly ILoginService _loginService;
+
+        public LoginController(ILoginService loginService)
         {
-            _emailService = emailService;
+            _loginService = loginService;
         }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserModel user)
+        [HttpPost]
+        public Task<string> Login(string username, string password)
         {
-            bool isValidCredentials = await _emailService.VerifyCredentials(user);
-
-            if (isValidCredentials)
-            {
-                return Ok("Login is true");
-            }
-            else
-            {
-                return BadRequest("Invalid credentials");
-            }
+            return _loginService.SendMessage(username, password);
         }
 
     }
